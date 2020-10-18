@@ -39,3 +39,14 @@ func get() {
 	}
 	log.Println(string(body))
 }
+
+// this method can't get the body.
+func head() {
+	resp, err := http.Head("http://localhost:18888")
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println("Status:", resp.Status)
+	log.Println("StatusCode:", resp.StatusCode)
+}
