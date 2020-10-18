@@ -50,3 +50,16 @@ func head() {
 	log.Println("Status:", resp.Status)
 	log.Println("StatusCode:", resp.StatusCode)
 }
+
+// Sending the POST method in x-www-form-urlencoded format
+func postFrom() {
+	values := url.Values{
+		"test": {"value"},
+	}
+
+	resp, err := http.PostForm("http://localhost:18888", values)
+	if err != nil {
+		panic(err)
+	}
+	log.Println("Status:", resp.Status)
+}
