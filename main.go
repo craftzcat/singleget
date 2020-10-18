@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func main() {
@@ -51,13 +52,23 @@ func head() {
 	log.Println("StatusCode:", resp.StatusCode)
 }
 
-// Sending the POST method in x-www-form-urlencoded format
+// Sending the POST method in x-www-form-urlencoded format.
 func postFrom() {
 	values := url.Values{
 		"test": {"value"},
 	}
 
 	resp, err := http.PostForm("http://localhost:18888", values)
+	if err != nil {
+		panic(err)
+	}
+	log.Println("Status:", resp.Status)
+}
+
+// Sending a string using the POST method.
+func post() {
+	reader := strings.NewReader("テキスト")
+	resp, err := http.Post("http://localhost:18888", "text/plain", reader)
 	if err != nil {
 		panic(err)
 	}
