@@ -17,6 +17,10 @@ func main() {
 	// Display as an integer. (e.g., 200)
 	log.Println("StausCode:", resp.StatusCode)
 
+	log.Println("Headers:", resp.Header)
+	// Display a specific header
+	log.Println("Content-Length:", resp.Header.Get("Content-Length"))
+
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
