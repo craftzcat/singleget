@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
@@ -69,6 +70,20 @@ func postFrom() {
 func post() {
 	reader := strings.NewReader("テキスト")
 	resp, err := http.Post("http://localhost:18888", "text/plain", reader)
+	if err != nil {
+		panic(err)
+	}
+	log.Println("Status:", resp.Status)
+}
+
+func postFile() {
+	// Passing files in io.Reader format.
+	file, err := os.Open("main.go")
+	if err != nil {
+		panic(err)
+	}
+
+	resp, err := http.Post("http://localhost:18888", "text/plain", file)
 	if err != nil {
 		panic(err)
 	}
