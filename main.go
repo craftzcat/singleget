@@ -8,6 +8,10 @@ import (
 )
 
 func main() {
+
+}
+
+func get() {
 	// Creating a query string.
 	values := url.Values{
 		"query": {"hello world"},
