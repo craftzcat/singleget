@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
+	"io"
 	"io/ioutil"
 	"log"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"os"
@@ -85,6 +88,32 @@ func postFile() {
 	}
 
 	resp, err := http.Post("http://localhost:18888", "text/plain", file)
+	if err != nil {
+		panic(err)
+	}
+	log.Println("Status:", resp.Status)
+}
+
+func postMultiport() {
+	// Declare a buffer to store a string of bytes after assembling the multipart part.
+	var buffer bytes.Buffer
+	writer := multipart.NewWriter(&buffer)
+	writer.WriteField("name", "Michael Jackson")
+	fileWriter, err := writer.CreateFormFile("thumbnail", "photo,jpg")
+	if err != nil {
+		panic(err)
+	}
+
+	readFile, err := os.Open("photo.jpg")
+	if err != nil {
+		panic(err)
+	}
+
+	defer readFile.Close()
+	io.Copy(fileWriter, readFile)
+	writer.Close()
+
+	resp, err := http.Post("http://localhost:18888", writer.FormDataContentType(), &buffer)
 	if err != nil {
 		panic(err)
 	}
